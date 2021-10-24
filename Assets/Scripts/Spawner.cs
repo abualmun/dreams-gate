@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour {
 
-    // Singltons
+    // Singletons
     static public Spawner spawner;
 
     [Header("Object to Spawn")]
@@ -40,14 +40,20 @@ public class Spawner : MonoBehaviour {
             );
 
             var newPart = Random.value > 0.8f;
+            var newObj = newPart ? part : car;
 
             if (newPart) numOfParts--;
 
-            Instantiate(
-                newPart ? part : car,
+            var sceneObj = Instantiate(
+                newObj,
                 transform.position + newPoint,
-                Quaternion.Euler(Vector3.up * 90)
+               newObj.transform.rotation
             );
+
+            // change color of new car
+            if (newObj == car) {
+                sceneObj.GetComponentInChildren<Renderer>().material.color = Random.ColorHSV(); ;
+            }
         }
     }
 

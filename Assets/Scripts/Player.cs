@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    // Singltons
+    // Singletons
     static public Player player;
 
     [Header("Movement")]
@@ -54,21 +54,23 @@ public class Player : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision other) {
-        GetComponentInChildren<Renderer>().material.color = Color.red; // TODO: remove me
+        // GetComponentInChildren<Renderer>().material.color = Color.red; // TODO: remove me
 
         switch (other.collider.tag) {
             case "EndGame":
                 reachedEnd = true;
                 break;
             default:
-                isDead = true;
+                Utils.Timeout(2000, () => {
+                    isDead = true;
+                });
                 break;
         }
     }
 
     void OnTriggerEnter(Collider other) {
         Destroy(other.gameObject);
-        GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
+        // GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
         collectedParts++;
     }
 }
